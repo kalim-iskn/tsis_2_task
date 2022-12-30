@@ -43,7 +43,7 @@ public class BlockChain {
             List<BlockChainBlock> blockInfos = fileStorage.getAll();
             printBlock(blockInfos);
 
-            fileStorage.clear();
+            //fileStorage.clear();
 
             System.out.println("Second result of verification = " + verify());
         } catch (Exception e) {

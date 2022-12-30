@@ -35,6 +35,15 @@ public class Crypto {
         return digest.digest(concat(blockChainBlock.getPrevHash(), info.toString().getBytes(StandardCharsets.UTF_8)));
     }
 
+    public byte[] getHash(ru.kpfu.itis.iskander.dz2_2.BlockChainBlock blockChainBlock) throws NoSuchAlgorithmException, UnsupportedEncodingException, NoSuchProviderException {
+
+        String info = blockChainBlock.getData();
+
+        MessageDigest digest = MessageDigest.getInstance(DIGEST_ALGORITHM, "BC");
+
+        return digest.digest(concat(blockChainBlock.getPrevHash(), info.getBytes(StandardCharsets.UTF_8)));
+    }
+
     public byte[] concat(byte[] a, byte[] b) {
         if (a == null) return b;
         if (b == null) return a;
@@ -70,8 +79,7 @@ public class Crypto {
         return keyFactory.generatePrivate(keySpec);
     }
 
-    public byte[] generateRSAPSSSignature(PrivateKey privateKey, byte[] input)
-            throws GeneralSecurityException {
+    public byte[] generateRSAPSSSignature(PrivateKey privateKey, byte[] input) throws GeneralSecurityException {
         Signature signature = Signature.getInstance(SIGN_ALGORITHM, "BC");
         signature.initSign(privateKey);
         signature.update(input);
@@ -79,8 +87,7 @@ public class Crypto {
         return signature.sign();
     }
 
-    public byte[] generateRSAPSSSignature2(PrivateKey privateKey, List<String> data)
-            throws GeneralSecurityException {
+    public byte[] generateRSAPSSSignature2(PrivateKey privateKey, List<String> data) throws GeneralSecurityException {
         String info = "";
         for (String s : data) {
             info = info + s;
@@ -92,8 +99,7 @@ public class Crypto {
         return signature.sign();
     }
 
-    public boolean verifyRSAPSSSignature(PublicKey publicKey, byte[] input, byte[] encSignature)
-            throws GeneralSecurityException {
+    public boolean verifyRSAPSSSignature(PublicKey publicKey, byte[] input, byte[] encSignature) throws GeneralSecurityException {
         Signature signature = Signature.getInstance(SIGN_ALGORITHM, "BC");
         signature.initVerify(publicKey);
         signature.update(input);

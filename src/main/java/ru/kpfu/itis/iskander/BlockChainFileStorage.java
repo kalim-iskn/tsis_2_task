@@ -27,6 +27,12 @@ public class BlockChainFileStorage {
         objectMapper.writeValue(file, blockChainBlock);
     }
 
+    public void save(ru.kpfu.itis.iskander.dz2_2.BlockChainBlock blockChainBlock) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        File file = new File(blocksDirectory + "/block-" + blockChainBlock.getBlockNum() + ".json");
+        objectMapper.writeValue(file, blockChainBlock);
+    }
+
     public void clear() throws IOException {
         FileUtils.cleanDirectory(blocks);
     }
@@ -40,6 +46,18 @@ public class BlockChainFileStorage {
                 return list;
             }
             list.add(objectMapper.readValue(FileUtils.readFileToString(iterator.next()), BlockChainBlock.class));
+        }
+    }
+
+    public List<ru.kpfu.itis.iskander.dz2_2.BlockChainBlock> getAllDZ2() throws IOException {
+        Iterator<File> iterator = FileUtils.iterateFiles(blocks, new String[]{"json"}, false);
+        ArrayList<ru.kpfu.itis.iskander.dz2_2.BlockChainBlock> list = new ArrayList<>();
+
+        while (true) {
+            if (!iterator.hasNext()) {
+                return list;
+            }
+            list.add(objectMapper.readValue(FileUtils.readFileToString(iterator.next()), ru.kpfu.itis.iskander.dz2_2.BlockChainBlock.class));
         }
     }
 }
